@@ -131,6 +131,27 @@ def display_students(students_dict):
                 print(f"  {subject}: {grade}")
 
 
+def calculate_average_grade(students_dict):
+    """
+    Лободюк Євгеній
+    Функція для обчислення та виведення середньої оцінки кожного студента.
+
+    Аргументи:
+    students_dict -- словник студентів, для яких потрібно обчислити середню оцінку
+    """
+    if not students_dict:
+        print("Словник порожній.")
+    else:
+        for student, details in students_dict.items():
+            grades = details['subjects_grades'].values()
+            if grades:
+                average_grade = sum(grades) / len(grades)
+                print(f"Студент: {student}, Середня оцінка: {average_grade:.2f}")
+            else:
+                print(f"У студента {student} немає оцінок.")
+
+
+
 def exit_program():
     """
     Функція для завершення роботи програми.
@@ -148,10 +169,11 @@ def main():
     menu_actions = {
         "1": display_students,  # Виведення всіх студентів
         "2": add_student,  # Додавання нового студента
+        "3": calculate_average_grade,  # Обчислення середньої оцінки кожного студента
         #
         # Додати новий пункт меню можна тут, призначивши йому індекс та ф-цію
         #
-        "3": exit_program  # Вихід з програми
+        "4": exit_program  # Вихід з програми
     }
 
     while True:
@@ -159,10 +181,11 @@ def main():
         print("\n--- Меню ---")
         print("1. Вивести всіх студентів та їх дані")
         print("2. Додати нового студента")
-        print("3. Вийти")
+        print("3. Обчислити середню оцінку кожного студента")
+        print("4. Вийти")
 
         # Запит вибору дії у користувача
-        choice = input("Оберіть дію (1-3): ")
+        choice = input("Оберіть дію (1-4): ")
 
         # Отримання функції з словника menu_actions за ключем choice
         action = menu_actions.get(choice)

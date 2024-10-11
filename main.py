@@ -115,6 +115,7 @@ def display_students(students_dict):
     Тихонов Богдан
     Функція для виведення на екран всіх студентів та їх даних.
 
+
     Аргументи:
     students_dict -- словник студентів, інформацію про яких потрібно вивести
     """
@@ -151,6 +152,44 @@ def calculate_average_grade(students_dict):
                 print(f"У студента {student} немає оцінок.")
 
 
+def students_below_threshold(students_dict):
+    """
+    Ткаченко Ілля
+    Функція для виведення студентів, які мають оцінку нижче заданого порогу за певний предмет.
+
+    Аргументи:
+    students_dict -- словник студентів, яких потрібно перевірити
+    """
+    if not students_dict:
+        print("Словник порожній.")
+    else:
+        # Введення назви предмета
+        subject = input("Введіть назву предмета: ")
+
+        # Введення порогової оцінки
+        try:
+            threshold = int(input("Введіть порогову оцінку: "))
+        except ValueError:
+            print("Помилка: оцінка повинна бути числом.")
+            return
+
+        # Перевірка студентів
+        students_below = []
+        for student, details in students_dict.items():
+            # Перевіряємо, чи є предмет у словнику предметів студента
+            if subject in details['subjects_grades']:
+                grade = details['subjects_grades'][subject]
+                if grade < threshold:
+                    students_below.append((student, grade))
+
+        # Виведення студентів з оцінками нижче порога
+        if students_below:
+            print(f"\nСтуденти, які мають оцінку нижче {threshold} з предмету {subject}:")
+            for student, grade in students_below:
+                print(f"{student}: {grade}")
+        else:
+            print(f"Немає студентів з оцінкою нижче {threshold} за предмет {subject}.")
+
 
 def exit_program():
     """
@@ -170,10 +209,9 @@ def main():
         "1": display_students,  # Виведення всіх студентів
         "2": add_student,  # Додавання нового студента
         "3": calculate_average_grade,  # Обчислення середньої оцінки кожного студента
-        #
+        "4": students_below_threshold,  # функція для виведення студентів, які мають оцінку за певним предметом нижче заданого порогу
         # Додати новий пункт меню можна тут, призначивши йому індекс та ф-цію
-        #
-        "4": exit_program  # Вихід з програми
+        "5": exit_program  # Вихід з програми
     }
 
     while True:
@@ -182,10 +220,12 @@ def main():
         print("1. Вивести всіх студентів та їх дані")
         print("2. Додати нового студента")
         print("3. Обчислити середню оцінку кожного студента")
-        print("4. Вийти")
+        print("4. Функція для виведення студентів, які мають оцінку за певним предметом нижче заданого порогу")
+        print("5. Вийти")
 
         # Запит вибору дії у користувача
-        choice = input("Оберіть дію (1-4): ")
+        choice = input("Оберіть дію (1-5): ")
+
 
         # Отримання функції з словника menu_actions за ключем choice
         action = menu_actions.get(choice)
